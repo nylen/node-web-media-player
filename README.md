@@ -9,11 +9,11 @@ Yes, it's ugly, and just barely functional.  I might fix that in the future.
 
 - [Install node.js](https://github.com/joyent/node/wiki/Installation).
 
-- `git clone https://github.com/nylen/node-web-media-player.git && cd node-web-media-player`
+- `git clone https://github.com/nylen/node-web-media-player.git`
+
+- `cd node-web-media-player` and `npm install`
 
 - Copy `example_config.js` to `config.js` and edit as needed.
-
-- `npm install`
 
 - `node bin/start-server.js`
 
