@@ -13,6 +13,8 @@ Yes, it's ugly, and just barely functional.  I might fix that in the future.
 
 - Copy `example_config.js` to `config.js` and edit as needed.
 
+- `npm install`
+
 - `node bin/start-server.js`
 
 ## Configuration settings
