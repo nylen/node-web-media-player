@@ -34,7 +34,7 @@ var app = express(),
     nowPlaying = {};
 
 app.get('/', function(req, res) {
-    res.send('Hello World');
+    res.redirect('/browse');
 });
 
 function browsePath(pathParam, cb) {
