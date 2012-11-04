@@ -1,0 +1,11 @@
+{
+    "name": "web-media-player",
+    "description": "Simple media player controlled by a web interface.  Designed for Raspberry Pi.",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "3.x"
+    },
+    "scripts": {
+        "start": "node ./bin/start-server.js"
+    }
+}
