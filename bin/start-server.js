@@ -78,8 +78,13 @@ function browsePath(pathParam, cb) {
     }
 
     if (nowPlaying.child) {
-        html += '<div>Now playing:</div><ul>\n';
-        html += '<li>' + nowPlaying.filename + '</li></ul>\n';
+        html += '<div>Now playing: <b>' + nowPlaying.filename + '</b>';
+        if (nowPlaying.paused) {
+            html += ' (paused)\n<ul><li><a href="/control/play?dir=' + pathInfo.rel + '">Play</a>';
+        } else {
+            html += '\n<ul><li><a href="/control/pause?dir=' + pathInfo.rel + '">Pause</a>';
+        }
+        html += '<li><a href="/control/exit?dir=' + pathInfo.rel + '">Stop</a>';
     }
 
     cb(html);
@@ -92,8 +97,9 @@ function handleBrowseRequest(req, res, pathParam) {
 }
 
 function playFile(filePath) {
+    console.log('Playing file:', filePath);
     nowPlaying.child = child_process.exec(
-        config.player.command.replace('%f', filePath.abs),
+        config.player.commands.start.replace('%f', filePath.abs),
         function(err, stdout, stderr) {
             console.log(' ==== Player process terminated ==== ');
             if (err) {
@@ -101,10 +107,56 @@ function playFile(filePath) {
             }
             console.log('Stdout:', stdout.toString('utf8'));
             console.log('Stderr:', stderr.toString('utf8'));
-            nowPlaying = {};
         });
+    nowPlaying.child.on('exit', function() {
+        nowPlaying = {};
+    });
     nowPlaying.filename = filePath.rel;
     nowPlaying.started = new Date();
+    nowPlaying.paused = false;
+}
+
+function sendPlayerCommand(command, cb) {
+    if (!nowPlaying.child) {
+        throw new Error('No player to control!');
+    }
+
+    switch (command) {
+        case 'exit':
+            var killTimeout;
+
+            nowPlaying.child.on('exit', function() {
+                clearTimeout(killTimeout);
+                cb();
+            });
+
+            killTimeout = setTimeout(function() {
+                console.log('Player process did not exit; killing');
+                if (config.player.commands.kill) {
+                    child_process.exec(config.player.commands.kill);
+                } else {
+                    nowPlaying.child.kill('SIGTERM');
+                }
+            }, config.player.exitTimeout);
+
+            break;
+
+        case 'pause':
+            nowPlaying.paused = true;
+            break;
+
+        case 'play':
+            nowPlaying.paused = false;
+            break;
+    }
+
+    var commandString = config.player.controls[command];
+    console.log('Sending player command "' + command + '": "' + commandString + '"');
+    nowPlaying.child.stdin.write(commandString);
+
+    if (command != 'exit') {
+        cb();
+    }
 }
 
 app.get('/browse', function(req, res) {
@@ -118,8 +170,7 @@ app.get('/browse/*', function(req, res) {
 app.get('/play', function(req, res) {
     var filePath = validatePath(req.query.filename, true);
     if (nowPlaying.child) {
-        nowPlaying.child.kill('SIGINT');
-        nowPlaying.child.on('exit', function() {
+        sendPlayerCommand('exit', function() {
             playFile(filePath);
             res.redirect(302, '/browse/' + path.dirname(filePath.rel));
         });
@@ -127,6 +178,13 @@ app.get('/play', function(req, res) {
         playFile(filePath);
         res.redirect(302, '/browse/' + path.dirname(filePath.rel));
     }
+});
+
+app.get('/control/:command', function(req, res) {
+    sendPlayerCommand(req.params.command, function() {
+        var filePath = validatePath(req.query.dir);
+        res.redirect(302, '/browse/' + filePath.rel);
+    });
 });
 
 app.listen(3000);
