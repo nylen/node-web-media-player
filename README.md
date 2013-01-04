@@ -3,7 +3,9 @@
 This application allows you to control a simple media player via a web
 interface.  I wrote it so that I could play video files on my Raspberry Pi.
 
-Yes, it's ugly, and just barely functional.  I might fix that in the future.
+Yes, it's ugly, and just barely functional.  Also it really needs to use
+templates instead of terrible inline butchered HTML.  I might fix that in the
+future.
 
 ## Getting started
 
@@ -32,6 +34,11 @@ Yes, it's ugly, and just barely functional.  I might fix that in the future.
   should work as if you had started the media player on the command line and
   pressed the specified key(s).  **player.controls.exit** should stop the
   player and cause the process to exit.
+
+- **player.controls.seek** - a dictionary where the keys are positive or
+  negative numbers of seconds (given as strings), and the values are the key
+  sequences needed to make the media player seek by the given number of
+  seconds.
 
 - **player.exitTimeout** - when **player.controls.exit** is sent, wait for this
   amount of time in milliseconds.  If the player process has not exited by

@@ -80,11 +80,25 @@ function browsePath(pathParam, cb) {
     if (nowPlaying.child) {
         html += '<div>Now playing: <b>' + nowPlaying.filename + '</b>';
         if (nowPlaying.paused) {
-            html += ' (paused)\n<ul><li><a href="/control/play?dir=' + pathInfo.rel + '">Play</a>';
+            html += ' (paused)</div>\n<ul><li><a href="/control/play?dir=' + pathInfo.rel + '">Play</a></li></ul>\n';
         } else {
-            html += '\n<ul><li><a href="/control/pause?dir=' + pathInfo.rel + '">Pause</a>';
+            html += '</div>\n<ul><li><a href="/control/pause?dir=' + pathInfo.rel + '">Pause</a></li></ul>\n';
         }
-        html += '<li><a href="/control/exit?dir=' + pathInfo.rel + '">Stop</a>';
+        var foundSeekCommands = false;
+        for (var n in config.player.controls.seek) {
+            if (!foundSeekCommands) {
+                foundSeekCommands = true;
+                html += '<ul>\n';
+            }
+            html += '<li><a href="/control/seek?n=' + encodeURIComponent(n) + '&dir=' + encodeURIComponent(pathInfo.rel) + '">Seek '
+                + (n < 0 ? 'back ' : 'forward ') + Math.abs(n) + 's</a></li>\n';
+        }
+        if (foundSeekCommands) {
+            html += '</ul>\n';
+        }
+        html += '</ul><ul>\n';
+        html += '<li><a href="/control/exit?dir=' + pathInfo.rel + '">Stop</a></li>\n';
+        html += '</ul>\n';
     }
 
     cb(html);
@@ -116,7 +130,7 @@ function playFile(filePath) {
     nowPlaying.paused = false;
 }
 
-function sendPlayerCommand(command, cb) {
+function sendPlayerCommand(command, cb, params) {
     if (!nowPlaying.child) {
         throw new Error('No player to control!');
     }
@@ -151,7 +165,10 @@ function sendPlayerCommand(command, cb) {
     }
 
     var commandString = config.player.controls[command];
-    console.log('Sending player command "' + command + '": "' + commandString + '"');
+    if (command == 'seek') {
+        commandString = commandString[params.n];
+    }
+    console.log('Sending player command "' + command + '": ' + JSON.stringify(commandString));
     nowPlaying.child.stdin.write(commandString);
 
     if (command != 'exit') {
@@ -184,7 +201,7 @@ app.get('/control/:command', function(req, res) {
     sendPlayerCommand(req.params.command, function() {
         var filePath = validatePath(req.query.dir);
         res.redirect(302, '/browse/' + filePath.rel);
-    });
+    }, req.query);
 });
 
 app.listen(3000);
