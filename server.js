@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-var consolidate = require('consolidate'),
+var appRoutes   = require('./lib/routes'),
+    config      = require('config'),
+    consolidate = require('consolidate'),
     express     = require('express'),
-    serialport  = require('serialport'),
-    swig        = require('swig'),
     path        = require('path'),
-    _           = require('underscore');
+    swig        = require('swig');
+
+require('express-namespace');
 
 var app = express();
 
@@ -20,8 +22,26 @@ swig.init({
 });
 app.set('views', viewsDir);
 
-app.use(express.static(path.join(__dirname, 'public')));
+if (config.app.trust_proxy) {
+    app.set('trust proxy', true);
+}
+
+var namespace = config.app.namespace || '';
+
+app.use(function(req, res, next) {
+    res.locals.namespace = namespace;
+    next();
+});
+
+app.use(namespace, express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res) {
-    res.render('index.html');
+    res.redirect(namespace);
+});
+
+app.namespace(namespace, function() {
+    appRoutes(app, config, function listen() {
+        app.listen(config.app.port);
+        console.log('Started server on port ' + config.app.port);
+    });
 });

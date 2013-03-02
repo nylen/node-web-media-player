@@ -1,0 +1,4 @@
+app:
+  port: 3000
+  namespace: /site
+  trust_proxy: true
