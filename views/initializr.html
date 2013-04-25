@@ -10,14 +10,14 @@
         <meta name="description" content="{% block description %}{% endblock %}">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap.css">
         <style>
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
         </style>
-        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap-responsive.css">
         <link rel="stylesheet" href="{{ namespace }}/css/main.css">
 
         <script src="{{ namespace }}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
@@ -32,7 +32,7 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="/">{% block site_name %}sitename{% endblock %}</a>
+                    {% block site_name %}sitename{% endblock %}
                 </div>
             </div>
         </div>

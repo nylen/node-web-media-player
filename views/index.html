@@ -3,19 +3,47 @@
 {% block title %}Media Player{% endblock %}
 
 {% block site_name%}
-    <span id='browse-path'>{{ directory|default('(Root directory)') }}</span>
-    {% if parent %}
-        | <a href="{{ namespace }}/browse/{{ parent }}">Go up</a>
-    {% endif %}
+    <div class="navbar-text">
+        <span id="browse-path" class="pathname">{{ directory|default('(Root directory)') }}</span>
+        {% if parent %}
+            <a href="{{ namespace }}/browse/{{ parent }}">(Go up)</a>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block content %}
+    {% if playing %}
+        <h3>Now playing</h3>
+        <ul id="controls">
+            <li>
+                <span class="pathname button">
+                    <span id="current-filename">{{ currentFilename }}</span>
+                    {% if paused %}(paused){% endif %}
+                </span>
+            </li>
+            <li>
+                {% if paused %}
+                    <a id="play" class="button" href="{{ namespace }}/control/play">Play</a>
+                {% else %}
+                    <a id="pause" class="button" href="{{ namespace }}/control/pause">Pause</a>
+                {% endif %}
+            </li>
+            {% for cmd in seekCommands %}
+                <li>
+                    <a class="button" href="{{ namespace }}/control/seek?n={{ cmd.value }}">Seek {{ cmd.text }}</a>
+                </li>
+            {% endfor %}
+            <li>
+                <a id="stop" class="button" href="{{ namespace }}/control/exit">Stop</a>
+            </li>
+        </ul>
+    {% endif %}
     {% for dir in dirs %}
         {% if loop.first %}
             <h3>Directories</h3>
             <ul id="directories">
         {% endif %}
-        <li><a href="{{ namespace }}/browse/{{ directory }}{{ dir }}">{{ dir }}</a></li>
+        <li><a class="pathname button" href="{{ namespace }}/browse/{{ directory }}{{ dir }}">{{ dir }}</a></li>
         {% if loop.last %}
             </ul>
         {% endif %}
@@ -25,33 +53,9 @@
             <h3>Files</h3>
             <ul id="files">
         {% endif %}
-        <li><a href="{{ namespace }}/play/{{ directory }}{{ file }}">{{ file }}</a></li>
+        <li><a class="pathname button" href="{{ namespace }}/play/{{ directory }}{{ file }}">{{ file }}</a></li>
         {% if loop.last %}
             </ul>
         {% endif %}
     {% endfor %}
-    {% if playing %}
-        <h3>Now playing</h3>
-        <ul>
-            <li>
-                <b>{{ currentFilename }}</b>
-                {% if paused %}(paused){% endif %}
-            </li>
-            <li>
-                {% if paused %}
-                    <a id="play" href="{{ namespace }}/control/play">Play</a>
-                {% else %}
-                    <a id="pause" href="{{ namespace }}/control/pause">Pause</a>
-                {% endif %}
-            </li>
-            {% for cmd in seekCommands %}
-                <li>
-                    <a href="{{ namespace }}/control/seek?n={{ cmd.value }}">Seek {{ cmd.text }}</a>
-                </li>
-            {% endfor %}
-            <li>
-                <a id="stop" href="{{ namespace }}/control/exit">Stop</a>
-            </li>
-        </ul>
-    {% endif %}
 {% endblock %}

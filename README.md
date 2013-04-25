@@ -3,7 +3,8 @@
 This application allows you to control a simple media player via a web
 interface.  I wrote it so that I could play video files on my Raspberry Pi.
 
-Yes, it's ugly, and just barely functional.  I might fix that in the future.
+This could really use some AJAX features - right now the state is only
+refreshed when a new page is requested.  I might work on this in the future.
 
 ## Getting started
 

@@ -1,0 +1,33 @@
+.pathname {
+    word-wrap: break-word;
+}
+#current-filename {
+    font-weight: bold;
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+ul li {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 -1px 0;
+    /* The following styles were adapted from jQuery Mobile v1.2.1 */
+    border:      1px solid #ccc;
+    background:  #eee;
+    color:       #222;
+    text-shadow: 0 1px 0 #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f1f1f1)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(#fff, #f1f1f1); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient(#fff, #f1f1f1); /* FF3.6 */
+    background-image:     -ms-linear-gradient(#fff, #f1f1f1); /* IE10 */
+    background-image:      -o-linear-gradient(#fff, #f1f1f1); /* Opera 11.10+ */
+    background-image:         linear-gradient(#fff, #f1f1f1);
+}
+ul li a {
+    font-weight: bold;
+}
+ul li .button {
+    display: block;
+    padding: 1em 1em;
+}
