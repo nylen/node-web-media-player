@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Media Player{% endblock %}
+
+{% block site_name%}
+    <span id='browse-path'>{{ directory|default('(Root directory)') }}</span>
+    {% if parent %}
+        | <a href="{{ namespace }}/browse/{{ parent }}">Go up</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% for dir in dirs %}
+        {% if loop.first %}
+            <h3>Directories</h3>
+            <ul id="directories">
+        {% endif %}
+        <li><a href="{{ namespace }}/browse/{{ directory }}{{ dir }}">{{ dir }}</a></li>
+        {% if loop.last %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+    {% for file in files %}
+        {% if loop.first %}
+            <h3>Files</h3>
+            <ul id="files">
+        {% endif %}
+        <li><a href="{{ namespace }}/play/{{ directory }}{{ file }}">{{ file }}</a></li>
+        {% if loop.last %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+    {% if playing %}
+        <h3>Now playing</h3>
+        <ul>
+            <li>
+                <b>{{ currentFilename }}</b>
+                {% if paused %}(paused){% endif %}
+            </li>
+            <li>
+                {% if paused %}
+                    <a id="play" href="{{ namespace }}/control/play">Play</a>
+                {% else %}
+                    <a id="pause" href="{{ namespace }}/control/pause">Pause</a>
+                {% endif %}
+            </li>
+            {% for cmd in seekCommands %}
+                <li>
+                    <a href="{{ namespace }}/control/seek?n={{ cmd.value }}">Seek {{ cmd.text }}</a>
+                </li>
+            {% endfor %}
+            <li>
+                <a id="stop" href="{{ namespace }}/control/exit">Stop</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -3,9 +3,7 @@
 This application allows you to control a simple media player via a web
 interface.  I wrote it so that I could play video files on my Raspberry Pi.
 
-Yes, it's ugly, and just barely functional.  Also it really needs to use
-templates instead of terrible inline butchered HTML.  I might fix that in the
-future.
+Yes, it's ugly, and just barely functional.  I might fix that in the future.
 
 ## Getting started
 
@@ -15,9 +13,10 @@ future.
 
 - `cd node-web-media-player` and `npm install`
 
-- Copy `example_config.js` to `config.js` and edit as needed.
+- Copy one of the example config files to `config/default.yml` and edit as
+  needed.
 
-- `node bin/start-server.js`
+- `node server.js`
 
 ## Configuration settings
 
