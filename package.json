@@ -11,6 +11,6 @@
         "js-yaml": "~2.0.3"
     },
     "scripts": {
-        "start": "node ./bin/start-server.js"
+        "start": "node server.js"
     }
 }
