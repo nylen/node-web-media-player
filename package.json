@@ -1,14 +1,28 @@
 {
-  "name": "PACKAGE_NAME",
-  "description": "PACKAGE_DESCRIPTION",
-  "version": "0.0.1",
-  "main": "lib/main",
-  "dependencies": {
-    "express": "~3.1.0",
-    "express-namespace": "~0.1.1",
-    "swig": "~0.13.5",
-    "consolidate": "~0.8.0",
-    "config": "~0.4.20",
-    "js-yaml": "~2.0.3"
-  }
+    "name": ### PACKAGE NAME ###,
+    "author": "James Nylen <jnylen@gmail.com",
+    "description": ### PACKAGE DESCRIPTION ###,
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nylen/"### REPO NAME ###
+    },
+    "bugs": {
+        "url": "https://github.com/nylen/"### REPO NAME ###"/issues"
+    },
+    "license": "MIT",
+    "keywords": [
+        ### INSERT KEYWORDS HERE ###
+    ],
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express": "~3.1.0",
+        "express-namespace": "~0.1.1",
+        "swig": "~0.13.5",
+        "consolidate": "~0.8.0",
+        "config": "~0.4.20",
+        "js-yaml": "~2.0.3"
+    }
 }
