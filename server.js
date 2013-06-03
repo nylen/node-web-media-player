@@ -1,11 +1,30 @@
 #!/usr/bin/env node
 
-var appRoutes   = require('./lib/routes'),
-    config      = require('config'),
-    consolidate = require('consolidate'),
-    express     = require('express'),
-    path        = require('path'),
-    swig        = require('swig');
+// Set up logger before doing anything else, so that modules that
+// require it can use it immediately
+var winston = require('winston');
+
+var log = new winston.Logger({
+    transports: [
+        new winston.transports.Console({
+            colorize: true,
+            level: 'http'
+        })
+    ]
+});
+log.cli();
+log.levels.http = 4.5;
+log.setLevels(log.levels);
+winston.addColors({ http: 'grey' });
+log.extend(require('./lib/logger'));
+
+var appRoutes      = require('./lib/routes'),
+    config         = require('config'),
+    consolidate    = require('consolidate'),
+    express        = require('express'),
+    expressWinston = require('./lib/vendor/express-winston'),
+    path           = require('path'),
+    swig           = require('swig');
 
 require('express-namespace');
 
@@ -33,6 +52,13 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(expressWinston.logger({
+    logger: log,
+    level: 'http'
+}));
+
+app.use(app.router);
+
 app.use(namespace, express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res) {
@@ -42,6 +68,6 @@ app.get('/', function(req, res) {
 app.namespace(namespace, function() {
     appRoutes(app, config, function listen() {
         app.listen(config.app.port);
-        console.log('Started server on port ' + config.app.port);
+        log.info('Started server on port ' + config.app.port);
     });
 });
