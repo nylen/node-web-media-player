@@ -2,13 +2,14 @@
 
 // Set up logger before doing anything else, so that modules that
 // require it can use it immediately
-var winston = require('winston');
+var config = require('config'),
+    winston = require('winston');
 
 var log = new winston.Logger({
     transports: [
         new winston.transports.Console({
             colorize: true,
-            level: 'http'
+            level: ((config.logging ? config.logging.level : null) || 'http')
         })
     ]
 });
@@ -19,7 +20,6 @@ winston.addColors({ http: 'grey' });
 log.extend(require('./lib/logger'));
 
 var appRoutes      = require('./lib/routes'),
-    config         = require('config'),
     consolidate    = require('consolidate'),
     express        = require('express'),
     expressWinston = require('./lib/vendor/express-winston'),
@@ -41,7 +41,7 @@ swig.init({
 });
 app.set('views', viewsDir);
 
-if (config.app.trust_proxy) {
+if (config.app.trustProxy) {
     app.set('trust proxy', true);
 }
 
