@@ -17,6 +17,18 @@ log.cli();
 log.levels.http = 4.5;
 log.setLevels(log.levels);
 winston.addColors({ http: 'grey' });
+
+// Modify log.{info,...} methods to be the same as log.log({'info',...}, ...)
+for (var level in log.levels) {
+    (function(level) {
+        log[level] = function() {
+            log.log.apply(log,
+                [level].concat(Array.prototype.slice.call(arguments)));
+        };
+    })(level);
+}
+
+// Make logging available as var log = require('./lib/logger');
 log.extend(require('./lib/logger'));
 
 var appRoutes      = require('./lib/routes'),
