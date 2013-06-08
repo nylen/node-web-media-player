@@ -49,7 +49,8 @@ var viewsDir = path.join(__dirname, 'views');
 
 swig.init({
     root: viewsDir,
-    allowErrors: true
+    allowErrors: true,
+    filters: require('./lib/filters.js')
 });
 app.set('views', viewsDir);
 
@@ -61,6 +62,7 @@ var namespace = config.app.namespace || '';
 
 app.use(function(req, res, next) {
     res.locals.namespace = namespace;
+    res.locals.qs = req.query;
     next();
 });
 
