@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-// Set up logger before doing anything else, so that modules that
-// require it can use it immediately
-var config = require('config'),
+// Set up logger before doing anything else, so modules that require it can use
+// it immediately
+var config  = require('config'),
     winston = require('winston');
 
 var log = new winston.Logger({
@@ -23,12 +23,12 @@ for (var level in log.levels) {
     (function(level) {
         log[level] = function() {
             log.log.apply(log,
-                [level].concat(Array.prototype.slice.call(arguments)));
+                [level].concat([].slice.call(arguments)));
         };
     })(level);
 }
 
-// Make logging available as var log = require('./lib/logger');
+// Make logging available as: var log = require('./lib/logger');
 log.extend(require('./lib/logger'));
 
 var appRoutes      = require('./lib/routes'),
