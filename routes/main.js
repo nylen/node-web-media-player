@@ -1,6 +1,6 @@
-var log = require('./logger');
+var log = require('../lib/logger');
 
-module.exports = function(app, config, listen) {
+exports.setRoutes = function(app, config, listen) {
     app.get('/', function(req, res) {
         res.render('index.html');
     });

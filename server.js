@@ -31,7 +31,7 @@ for (var level in log.levels) {
 // Make logging available as: var log = require('./lib/logger');
 log.extend(require('./lib/logger'));
 
-var appRoutes      = require('./lib/routes'),
+var routes         = require('./lib/routes'),
     consolidate    = require('consolidate'),
     express        = require('express'),
     expressWinston = require('./lib/vendor/express-winston'),
@@ -80,7 +80,7 @@ app.get('/', function(req, res) {
 });
 
 app.namespace(namespace, function() {
-    appRoutes(app, config, function listen() {
+    routes.setRoutes(app, config, function listen() {
         app.listen(config.app.port);
         log.info('Started server on port ' + config.app.port);
     });
