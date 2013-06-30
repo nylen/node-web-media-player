@@ -10,22 +10,22 @@
         <meta name="description" content="{% block description %}{% endblock %}">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap/bootstrap.min.css">
         <style>
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
         </style>
-        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap-responsive.min.css">
-        <link rel="stylesheet" href="{{ namespace }}/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="{{ namespace }}/font/font-awesome.min.css">
         <!--[if IE 7]>
         <link rel="stylesheet" href="{{ namespace }}/css/font-awesome-ie7.min.css">
         <![endif]-->
         {% block styles %}{% endblock %}
         <link rel="stylesheet" href="{{ namespace }}/css/main.css">
 
-        <script src="{{ namespace }}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="{{ namespace }}/js/bootstrap/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
     <body>
         <!--[if lte IE 7]>
@@ -53,9 +53,9 @@
         </div> <!-- /container -->
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-        <script>window.jQuery || document.write('<script src="{{ namespace }}/js/vendor/jquery-1.9.1.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="{{ namespace }}/js/bootstrap/jquery-1.9.1.js"><\/script>')</script>
 
-        <script src="{{ namespace }}/js/vendor/bootstrap.min.js"></script>
+        <script src="{{ namespace }}/js/bootstrap/bootstrap.min.js"></script>
 
         {% block scripts %}{% endblock %}
         <script src="{{ namespace }}/js/main.js"></script>
