@@ -66,6 +66,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(express.bodyParser());
+
 app.use(expressWinston.logger({
     logger: log,
     level: 'http'
