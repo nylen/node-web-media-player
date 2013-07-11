@@ -1,6 +1,6 @@
 {
     "name": ### PACKAGE NAME ###,
-    "author": "James Nylen <jnylen@gmail.com",
+    "author": "James Nylen <jnylen@gmail.com>",
     "description": ### PACKAGE DESCRIPTION ###,
     "version": "0.0.1",
     "repository": {
