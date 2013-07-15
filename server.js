@@ -31,7 +31,7 @@ for (var level in log.levels) {
 // Make logging available as: var log = require('./lib/logger');
 log.extend(require('./lib/logger'));
 
-var routes         = require('./lib/routes'),
+var routes         = require('./routes/main'),
     consolidate    = require('consolidate'),
     express        = require('express'),
     expressWinston = require('./lib/vendor/express-winston'),
