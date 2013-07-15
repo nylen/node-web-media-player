@@ -57,6 +57,11 @@
 
         <script src="{{ namespace }}/js/bootstrap/bootstrap.min.js"></script>
 
+        <script>
+            {% autoescape false %}
+                var namespace = {{ namespace|json }};
+            {% endautoescape %}
+        </script>
         {% block scripts %}{% endblock %}
         <script src="{{ namespace }}/js/main.js"></script>
     </body>
