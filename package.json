@@ -1,18 +1,18 @@
 {
-    "name": ### PACKAGE NAME ###,
+    "name": "PACKAGE-NAME",
     "author": "James Nylen <jnylen@gmail.com>",
-    "description": ### PACKAGE DESCRIPTION ###,
+    "description": "'PACKAGE DESCRIPTION'",
     "version": "0.0.1",
     "repository": {
         "type": "git",
-        "url": "https://github.com/nylen/"### REPO NAME ###
+        "url": "https://github.com/nylen/'REPO NAME'"
     },
     "bugs": {
-        "url": "https://github.com/nylen/"### REPO NAME ###"/issues"
+        "url": "https://github.com/nylen/'REPO NAME'/issues"
     },
     "license": "MIT",
     "keywords": [
-        ### INSERT KEYWORDS HERE ###
+        "'INSERT KEYWORDS HERE'"
     ],
     "scripts": {
         "start": "node server.js",
