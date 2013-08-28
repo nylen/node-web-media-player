@@ -16,10 +16,10 @@
     ],
     "scripts": {
         "start": "node server.js",
-        "test": "node node_modules/.bin/vows test/*.js --spec"
+        "test": "node node_modules/.bin/mocha"
     },
     "devDependencies": {
-        "vows": "~0.7.0",
+        "mocha": "~1.12.0",
         "should": "~1.2.2"
     },
     "dependencies": {
