@@ -1,0 +1,9 @@
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+.footer p {
+    margin-bottom: 0;
+    color: #777;
+}
