@@ -148,9 +148,11 @@ app.get('/', function(req, res) {
     res.redirect(namespace);
 });
 
-app.namespace(namespace, function() {
-    routes.setRoutes(app, config, function listen() {
-        app.listen(config.app.port);
-        log.info('Started server on port ' + config.app.port);
+users.init(function() {
+    app.namespace(namespace, function() {
+        routes.setRoutes(app, config, function listen() {
+            app.listen(config.app.port);
+            log.info('Started server on port ' + config.app.port);
+        });
     });
 });
