@@ -28,7 +28,7 @@ exports.setRoutes = function(app, config, listen) {
 
     app.get('/control/:command', app.ensureAuthenticated, function(req, res) {
         player.sendCommand(req.params.command, function() {
-            res.redirect(req.header('Referer'));
+            res.redirect(req.header('Referrer'));
         }, req.query);
     });
 
