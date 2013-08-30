@@ -5,6 +5,12 @@
 var config  = require('config'),
     winston = require('winston');
 
+if (!config.app) {
+    throw new Error(
+        'Configuration settings not found.  Please copy config/example.yml '
+        + 'to config/default.yml and edit as needed.');
+}
+
 var log = new winston.Logger({
     transports: [
         new winston.transports.Console({
