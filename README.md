@@ -21,7 +21,7 @@ refreshed when a new page is requested.  I might work on this in the future.
 
 ## Configuration settings
 
-- **mediaPath** - the root path for your media files.
+- **player.mediaPath** - the root path for your media files.
 
 - **player.commands.start** - the command that should be used to run the media
   player for a file.  This should be a command-line media player like `mplayer`

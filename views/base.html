@@ -1,3 +1,34 @@
 {% extends 'initializr.html' %}
 
-{% block site_name %}Media Player{% endblock %}
+{% block title %}Page title{% endblock %}
+
+{% block siteName %}Media Player{% endblock %}
+
+{% block messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{ msg.type }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{ msg.type|capitalize }}:</strong>
+            {{ msg.message }}
+        </div>
+    {% endfor %}
+{% endblock messages %}
+
+{% block scriptVars %}
+    <script>
+        {% autoescape false %}
+            var namespace = {{ namespace|json }};
+        {% endautoescape %}
+    </script>
+{% endblock %}
+
+{% block footer %}
+    {% if user %}
+        <footer class="footer">
+            <p>
+            Logged in as: <strong>{{ user.username }}</strong><br>
+            <a href="{{ namespace }}/logout">Log out</a>
+            </p>
+        </footer>
+    {% endif %}
+{% endblock %}

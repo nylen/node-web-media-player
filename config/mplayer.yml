@@ -2,18 +2,21 @@ app:
   port: 3000
   namespace: /media
   trust_proxy: true
-  media_path: /media/htpc/media
-  player:
-    commands:
-      start: 'DISPLAY=:0 mplayer "%f"'
-    controls:
-      play: ' '
-      pause: ' '
-      exit: 'q'
-      seek:
-        # Escape sequences obtained using xxd command
-        -10: "\x1b\x5b\x44" # left arrow
-        +10: "\x1b\x5b\x43" # right arrow
-        -60: "\x1b\x5b\x42" # down arrow
-        +60: "\x1b\x5b\x41" # up arrow
-    exitTimeout: 500
+  secret: this is not a very good secret
+logging:
+  level: info
+player:
+  mediaPath: /media/htpc/media
+  commands:
+    start: 'DISPLAY=:0 mplayer "%f"'
+  controls:
+    play: ' '
+    pause: ' '
+    exit: 'q'
+    seek:
+      # Escape sequences obtained using xxd command
+      -10: "\x1b\x5b\x44" # left arrow
+      +10: "\x1b\x5b\x43" # right arrow
+      -60: "\x1b\x5b\x42" # down arrow
+      +60: "\x1b\x5b\x41" # up arrow
+  exitTimeout: 500

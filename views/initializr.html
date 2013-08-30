@@ -6,24 +6,29 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block title %}Page title{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="{% block description %}{% endblock %}">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap.css">
+        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap/bootstrap.min.css">
         <style>
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
         </style>
-        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="{{ namespace }}/css/bootstrap/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="{{ namespace }}/font/font-awesome.min.css">
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="{{ namespace }}/css/font-awesome-ie7.min.css">
+        <![endif]-->
+        {% block styles %}{% endblock %}
         <link rel="stylesheet" href="{{ namespace }}/css/main.css">
 
-        <script src="{{ namespace }}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="{{ namespace }}/js/bootstrap/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
+        <!--[if lte IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
@@ -32,12 +37,13 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    {% block site_name %}sitename{% endblock %}
+                    <a class="brand" href="{{ namespace }}/">{% block siteName %}{% endblock %}</a>
                 </div>
             </div>
         </div>
 
         <div class="container">
+            {% block messages %}{% endblock %}
             {% block content %}
                 <h1>Bootstrap starter template</h1>
                 <p>
@@ -46,13 +52,15 @@
                 </p>
             {% endblock %}
         </div> <!-- /container -->
+        {% block footer %}{% endblock %}
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-        <script>window.jQuery || document.write('<script src="{{ namespace }}/js/vendor/jquery-1.9.1.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="{{ namespace }}/js/bootstrap/jquery-1.9.1.js"><\/script>')</script>
 
-        <script src="{{ namespace }}/js/vendor/bootstrap.min.js"></script>
+        <script src="{{ namespace }}/js/bootstrap/bootstrap.min.js"></script>
 
-        {% block other_scripts %}{% endblock %}
+        {% block scriptVars %}{% endblock %}
+        {% block scripts %}{% endblock %}
         <script src="{{ namespace }}/js/main.js"></script>
     </body>
 </html>

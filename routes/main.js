@@ -1,8 +1,10 @@
-var path   = require('path'),
-    player = require('./player');
+var log      = require('../lib/logger'),
+    passport = require('passport'),
+    path     = require('path'),
+    player   = require('../lib/player');
 
-module.exports = function(app, config, listen) {
-    player.setConfig(config.app);
+exports.setRoutes = function(app, config, listen) {
+    player.setConfig(config.player);
 
     app.get('/', function(req, res) {
         res.redirect(config.app.namespace + '/browse');
@@ -29,6 +31,8 @@ module.exports = function(app, config, listen) {
             res.redirect(req.header('Referer'));
         }, req.query);
     });
+
+    require('./auth').setRoutes(app, config);
 
     listen();
 };
