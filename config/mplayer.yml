@@ -1,7 +1,7 @@
 app:
   port: 3000
   namespace: /media
-  trust_proxy: true
+  trustProxy: true
   secret: this is not a very good secret
 logging:
   level: info
