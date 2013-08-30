@@ -1,3 +1,13 @@
 {% extends 'initializr.html' %}
 
-{% block site_name %}{% endblock %}
+{% block title %}Page title{% endblock %}
+
+{% block siteName %}Site name{% endblock %}
+
+{% block scriptVars %}
+    <script>
+        {% autoescape false %}
+            var namespace = {{ namespace|json }};
+        {% endautoescape %}
+    </script>
+{% endblock %}
