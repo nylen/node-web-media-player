@@ -35,8 +35,12 @@ var routes         = require('./routes/main'),
     consolidate    = require('consolidate'),
     express        = require('express'),
     expressWinston = require('./lib/vendor/express-winston'),
+    flash          = require('connect-flash'),
+    LocalStrategy  = require('passport-local').Strategy,
+    passport       = require('passport'),
     path           = require('path'),
-    swig           = require('swig');
+    swig           = require('swig'),
+    users          = require('./lib/users');
 
 require('express-namespace');
 
@@ -60,18 +64,75 @@ if (config.app.trustProxy) {
 
 var namespace = config.app.namespace || '';
 
-app.use(function(req, res, next) {
-    res.locals.namespace = namespace;
-    res.locals.qs = req.query;
-    next();
-});
-
 app.use(express.bodyParser());
 
 app.use(expressWinston.logger({
     logger: log,
     level: 'http'
 }));
+
+passport.use(new LocalStrategy(function(username, password, done) {
+    var user = users.test(username, password);
+    if (user) {
+        done(null, user);
+    } else {
+        done(null, false, {
+            message: 'Invalid username or password.'
+        });
+    }
+}));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.username);
+});
+
+passport.deserializeUser(function(username, done) {
+    var user = users.get(username);
+    if (user) {
+        done(null, user);
+    } else {
+        done(new Error('Invalid username or password.'));
+    }
+});
+
+app.ensureAuthenticated = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        req.session.returnTo = req.url;
+        res.redirect(namespace + '/login');
+    }
+};
+
+app.use(express.cookieParser());
+app.use(express.session({ secret: config.app.secret }));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+var msgTypes = ['error', 'warning', 'info', 'success'];
+
+// Custom middleware to set template variables
+app.use(function(req, res, next) {
+    res.locals.namespace = namespace;
+    res.locals.qs        = req.query;
+    res.locals.flash     = req.flash;
+
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+    }
+
+    res.locals.messages = [];
+    msgTypes.forEach(function(type) {
+        req.flash(type).forEach(function(msg) {
+            res.locals.messages.push({
+                type    : type,
+                message : msg
+            });
+        });
+    });
+    next();
+});
 
 app.use(app.router);
 

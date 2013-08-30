@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Log in{%endblock %}
+
+{% block content %}
+    <h3>Log in</h3>
+    <form class="form-horizontal" action="{{ namespace }}/login" method="post">
+        {% include 'partials/login_form.html' with { action: 'Sign in' } %}
+    </form>
+{% endblock %}

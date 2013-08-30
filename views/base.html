@@ -4,6 +4,16 @@
 
 {% block siteName %}Site name{% endblock %}
 
+{% block messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{ msg.type }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{ msg.type|capitalize }}:</strong>
+            {{ msg.message }}
+        </div>
+    {% endfor %}
+{% endblock messages %}
+
 {% block scriptVars %}
     <script>
         {% autoescape false %}
