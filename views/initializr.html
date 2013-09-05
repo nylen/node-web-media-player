@@ -9,6 +9,7 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="{% block description %}{% endblock %}">
         <meta name="viewport" content="width=device-width">
+        {% block headAdditional %}{% endblock %}
 
         <link rel="stylesheet" href="{{ namespace }}/css/bootstrap/bootstrap.min.css">
         <style>
