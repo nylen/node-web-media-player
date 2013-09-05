@@ -1,5 +1,4 @@
-var log      = require('../lib/logger'),
-    passport = require('passport');
+var log = require('../lib/logger');
 
 exports.setRoutes = function(app, config, listen) {
     app.get('/', app.ensureAuthenticated, function(req, res) {
