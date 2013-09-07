@@ -196,6 +196,7 @@ if (config.app.mongoUrl) {
         }
     });
 } else {
+    log.warn('MongoDB connection string (config.app.mongoUrl) not given');
     process.nextTick(function() {
         setupWithDb(null);
     });
