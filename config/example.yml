@@ -11,6 +11,9 @@ app:
   # secret:
   # The secret key to use for Express sessions.
   secret: please use something better than this
+  # mongoUrl:
+  # The connection URL to use for MongoDB (to store sessions).
+  mongoUrl: mongodb://localhost/connect-sessions
 logging:
   # level:
   # The minimum log level that will be shown in console output.  Levels are:
