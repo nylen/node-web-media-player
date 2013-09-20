@@ -165,6 +165,10 @@ function setupWithDb(db) {
         res.redirect(namespace);
     });
 
+    app.vars = {
+        namespace : namespace
+    };
+
     users.init(function() {
         app.namespace(namespace, function() {
             routes.setRoutes(app, config, function listen() {
