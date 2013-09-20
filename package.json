@@ -1,17 +1,17 @@
 {
-    "name": "web-media-player",
-    "author": "James Nylen <jnylen@gmail.com",
-    "description": "Simple media player controlled by a web interface.  Designed for Raspberry Pi.",
-    "version": "0.1.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/nylen/node-web-media-player"
+    "name"        : "web-media-player",
+    "author"      : "James Nylen <jnylen@gmail.com",
+    "description" : "Simple media player controlled by a web interface.  Designed for Raspberry Pi.",
+    "version"     : "0.1.0",
+    "repository"  : {
+        "type" : "git",
+        "url"  : "https://github.com/nylen/node-web-media-player"
     },
-    "bugs": {
-        "url": "https://github.com/nylen/node-web-media-player/issues"
+    "bugs" : {
+        "url" : "https://github.com/nylen/node-web-media-player/issues"
     },
-    "license": "MIT",
-    "keywords": [
+    "license"  : "MIT",
+    "keywords" : [
         "media",
         "video",
         "mplayer",
@@ -19,27 +19,27 @@
         "raspberry",
         "pi"
     ],
-    "scripts": {
-        "start": "node server.js",
-        "test": "node node_modules/.bin/mocha"
+    "scripts" : {
+        "start" : "node server.js",
+        "test"  : "node node_modules/.bin/mocha"
     },
-    "devDependencies": {
-        "mocha": "~1.12.0",
-        "should": "~1.2.2"
+    "devDependencies" : {
+        "mocha"  : "~1.12.0",
+        "should" : "~1.2.2"
     },
-    "dependencies": {
-        "express": "~3.1.0",
-        "express-namespace": "~0.1.1",
-        "swig": "~0.13.5",
-        "consolidate": "~0.8.0",
-        "config": "~0.4.20",
-        "js-yaml": "~2.0.3",
-        "winston": "~0.7.1",
-        "passport": "~0.1.17",
-        "passport-local": "~0.1.6",
-        "connect-flash": "~0.1.1",
-        "connect-mongo": "~0.3.3",
-        "mongodb": "~1.2.14",
-        "lazy": "~1.0.11"
+    "dependencies" : {
+        "express"           : "~3.1.0",
+        "express-namespace" : "~0.1.1",
+        "swig"              : "~0.13.5",
+        "consolidate"       : "~0.8.0",
+        "config"            : "~0.4.20",
+        "js-yaml"           : "~2.0.3",
+        "winston"           : "~0.7.1",
+        "passport"          : "~0.1.17",
+        "passport-local"    : "~0.1.6",
+        "connect-flash"     : "~0.1.1",
+        "connect-mongo"     : "~0.3.3",
+        "mongodb"           : "~1.2.14",
+        "lazy"              : "~1.0.11"
     }
 }
