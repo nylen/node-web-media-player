@@ -43,6 +43,8 @@ var routes         = require('./routes/main'),
     expressWinston = require('./lib/vendor/express-winston'),
     flash          = require('connect-flash'),
     LocalStrategy  = require('passport-local').Strategy,
+    MongoClient    = require('mongodb').MongoClient,
+    MongoStore     = require('connect-mongo')(express),
     passport       = require('passport'),
     path           = require('path'),
     swig           = require('swig'),
@@ -111,48 +113,91 @@ app.ensureAuthenticated = function(req, res, next) {
 };
 
 app.use(express.cookieParser());
-app.use(express.session({ secret: config.app.secret }));
-app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
 
-var msgTypes = ['error', 'warning', 'info', 'success'];
-
-// Custom middleware to set template variables
-app.use(function(req, res, next) {
-    res.locals.namespace = namespace;
-    res.locals.qs        = req.query;
-    res.locals.flash     = req.flash;
-
-    if (req.isAuthenticated()) {
-        res.locals.user = req.user;
+function setupWithDb(db) {
+    if (db) {
+        log.info('Using MongoDB session store');
+        app.use(express.session({
+            secret : config.app.secret,
+            store  : new MongoStore({
+                db : db
+            })
+        }));
+    } else {
+        log.warn('Using in-memory session store');
+        app.use(express.session({
+            secret : config.app.secret
+        }));
     }
 
-    res.locals.messages = [];
-    msgTypes.forEach(function(type) {
-        req.flash(type).forEach(function(msg) {
-            res.locals.messages.push({
-                type    : type,
-                message : msg
+    app.use(flash());
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    var msgTypes = ['error', 'warning', 'info', 'success'];
+
+    // Custom middleware to set template variables
+    app.use(function(req, res, next) {
+        res.locals.namespace = namespace;
+        res.locals.qs        = req.query;
+
+        if (req.isAuthenticated()) {
+            res.locals.user = req.user;
+        }
+
+        res.locals.messages = [];
+        msgTypes.forEach(function(type) {
+            req.flash(type).forEach(function(msg) {
+                res.locals.messages.push({
+                    type    : type,
+                    message : msg
+                });
+            });
+        });
+        next();
+    });
+
+    app.use(app.router);
+
+    app.use(namespace, express.static(path.join(__dirname, 'public')));
+
+    app.get('/', function(req, res) {
+        res.redirect(namespace);
+    });
+
+    app.vars = {
+        namespace : namespace
+    };
+
+    users.init(function() {
+        app.namespace(namespace, function() {
+            routes.setRoutes(app, config, function listen() {
+                app.listen(config.app.port);
+                log.info('Started server on port ' + config.app.port);
             });
         });
     });
-    next();
-});
+}
 
-app.use(app.router);
-
-app.use(namespace, express.static(path.join(__dirname, 'public')));
-
-app.get('/', function(req, res) {
-    res.redirect(namespace);
-});
-
-users.init(function() {
-    app.namespace(namespace, function() {
-        routes.setRoutes(app, config, function listen() {
-            app.listen(config.app.port);
-            log.info('Started server on port ' + config.app.port);
-        });
+if (config.app.mongoUrl) {
+    MongoClient.connect(config.app.mongoUrl, {
+        server: {
+            socketOptions: {
+                connectTimeoutMS : 250,
+                socketTimeoutMS  : 250
+            }
+        }
+    }, function(err, db) {
+        if (err) {
+            log.warn('Error connecting to MongoDB: ' + (err.message || require('util').inspect(err)));
+            setupWithDb(null);
+        } else {
+            setupWithDb(db);
+        }
     });
-});
+} else {
+    log.warn('MongoDB connection string (config.app.mongoUrl) not given');
+    process.nextTick(function() {
+        setupWithDb(null);
+    });
+}
