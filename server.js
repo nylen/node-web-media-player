@@ -119,9 +119,6 @@ function setupWithDb(db) {
         log.info('Using MongoDB session store');
         app.use(express.session({
             secret : config.app.secret,
-            cookie : {
-                path : namespace + '/'
-            },
             store  : new MongoStore({
                 db : db
             })
@@ -143,7 +140,6 @@ function setupWithDb(db) {
     app.use(function(req, res, next) {
         res.locals.namespace = namespace;
         res.locals.qs        = req.query;
-        res.locals.flash     = req.flash;
 
         if (req.isAuthenticated()) {
             res.locals.user = req.user;
