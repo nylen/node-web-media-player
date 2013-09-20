@@ -7,16 +7,16 @@ exports.setRoutes = function(app, config) {
 
     app.post('/login',
         passport.authenticate('local', {
-            failureRedirect : config.app.namespace + '/login',
+            failureRedirect : res.locals.namespace + '/login',
             failureFlash    : true
         }),
         function(req, res) {
-            res.redirect(req.session.returnTo || config.app.namespace);
+            res.redirect(req.session.returnTo || res.locals.namespace);
         }
     );
 
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect(req.header('Referrer') || config.app.namespace);
+        res.redirect(req.header('Referrer') || res.locals.namespace);
     });
 };
