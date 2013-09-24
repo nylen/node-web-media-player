@@ -38,7 +38,7 @@ for (var level in log.levels) {
 log.extend(require('./lib/logger'));
 
 var routes         = require('./routes/main'),
-    consolidate    = require('consolidate'),
+    filters        = require('./lib/filters'),
     express        = require('express'),
     expressWinston = require('./lib/vendor/express-winston'),
     flash          = require('connect-flash'),
@@ -54,17 +54,10 @@ require('express-namespace');
 
 var app = express();
 
-app.engine('.html', consolidate.swig);
+filters.setFilters();
+app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
-
-var viewsDir = path.join(__dirname, 'views');
-
-swig.init({
-    root: viewsDir,
-    allowErrors: true,
-    filters: require('./lib/filters.js')
-});
-app.set('views', viewsDir);
+app.set('views', path.join(__dirname, 'views'));
 
 if (config.app.trustProxy) {
     app.set('trust proxy', true);

@@ -1,8 +1,8 @@
 {% extends 'initializr.html' %}
 
-{% block title %}Page title{% endblock %}
+{% block title %}Page title{% endblock title %}
 
-{% block siteName %}Site name{% endblock %}
+{% block siteName %}Site name{% endblock title %}
 
 {% block messages %}
     {% for msg in messages %}
@@ -20,7 +20,7 @@
             var namespace = {{ namespace|json }};
         {% endautoescape %}
     </script>
-{% endblock %}
+{% endblock scriptVars %}
 
 {% block footer %}
     {% if user %}
@@ -31,4 +31,4 @@
             </p>
         </footer>
     {% endif %}
-{% endblock %}
+{% endblock footer %}
