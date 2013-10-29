@@ -34,6 +34,7 @@
         "connect-flash"     : "~0.1.1",
         "connect-mongo"     : "~0.3.3",
         "mongodb"           : "~1.2.14",
-        "lazy"              : "~1.0.11"
+        "lazy"              : "~1.0.11",
+        "watch"             : "~0.8.0"
     }
 }

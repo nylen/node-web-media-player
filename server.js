@@ -48,16 +48,38 @@ var routes         = require('./routes/main'),
     passport       = require('passport'),
     path           = require('path'),
     swig           = require('swig'),
-    users          = require('./lib/users');
+    users          = require('./lib/users'),
+    watch          = require('watch');
 
 require('express-namespace');
 
 var app = express();
 
+var viewsDir = path.join(__dirname, 'views');
 filters.setFilters();
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', viewsDir);
+
+watch.watchTree(viewsDir, function(f, curr, prev) {
+    var op = '';
+    if (typeof f == 'object' && prev === null && curr === null) {
+        // Finished walking the tree
+        return;
+    } else if (prev === null) {
+        // f is a new file
+        op = 'created';
+    } else if (curr.nlink === 0) {
+        // f was removed
+        op = 'removed';
+    } else {
+        // f was changed
+        op = 'changed';
+    }
+    log.info("Template file '%s' %s; invalidating template cache",
+        f, op);
+    swig.invalidateCache();
+});
 
 if (config.app.trustProxy) {
     app.set('trust proxy', true);
