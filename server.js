@@ -110,11 +110,15 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
-    var user = users.get(username);
-    if (user) {
-        done(null, user);
+    if (users.any()) {
+        var user = users.get(username);
+        if (user) {
+            done(null, user);
+        } else {
+            done(new Error('Invalid username or password.'));
+        }
     } else {
-        done(new Error('Invalid username or password.'));
+        done(null, null);
     }
 });
 
