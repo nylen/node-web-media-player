@@ -38,7 +38,7 @@ for (var level in log.levels) {
 log.extend(require('./lib/logger'));
 
 var routes         = require('./routes/main'),
-    consolidate    = require('consolidate'),
+    filters        = require('./lib/filters'),
     express        = require('express'),
     expressWinston = require('./lib/vendor/express-winston'),
     flash          = require('connect-flash'),
@@ -48,23 +48,38 @@ var routes         = require('./routes/main'),
     passport       = require('passport'),
     path           = require('path'),
     swig           = require('swig'),
-    users          = require('./lib/users');
+    users          = require('./lib/users'),
+    watch          = require('watch');
 
 require('express-namespace');
 
 var app = express();
 
-app.engine('.html', consolidate.swig);
-app.set('view engine', 'html');
-
 var viewsDir = path.join(__dirname, 'views');
-
-swig.init({
-    root: viewsDir,
-    allowErrors: true,
-    filters: require('./lib/filters.js')
-});
+filters.setFilters();
+app.engine('html', swig.renderFile);
+app.set('view engine', 'html');
 app.set('views', viewsDir);
+
+watch.watchTree(viewsDir, function(f, curr, prev) {
+    var op = '';
+    if (typeof f == 'object' && prev === null && curr === null) {
+        // Finished walking the tree
+        return;
+    } else if (prev === null) {
+        // f is a new file
+        op = 'created';
+    } else if (curr.nlink === 0) {
+        // f was removed
+        op = 'removed';
+    } else {
+        // f was changed
+        op = 'changed';
+    }
+    log.info("Template file '%s' %s; invalidating template cache",
+        f, op);
+    swig.invalidateCache();
+});
 
 if (config.app.trustProxy) {
     app.set('trust proxy', true);
@@ -95,11 +110,15 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
-    var user = users.get(username);
-    if (user) {
-        done(null, user);
+    if (users.any()) {
+        var user = users.get(username);
+        if (user) {
+            done(null, user);
+        } else {
+            done(new Error('Invalid username or password.'));
+        }
     } else {
-        done(new Error('Invalid username or password.'));
+        done(null, null);
     }
 });
 

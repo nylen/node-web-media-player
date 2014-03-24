@@ -6,10 +6,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block title %}{% endblock %}</title>
-        <meta name="description" content="{% block description %}{% endblock %}">
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="description" content="{% block description %}{% endblock description %}">
         <meta name="viewport" content="width=device-width">
-        {% block headAdditional %}{% endblock %}
+        {% block headAdditional %}{% endblock headAdditional %}
 
         <link rel="stylesheet" href="{{ namespace }}/css/bootstrap/bootstrap.min.css">
         <style>
@@ -23,7 +23,7 @@
         <!--[if IE 7]>
         <link rel="stylesheet" href="{{ namespace }}/css/font-awesome-ie7.min.css">
         <![endif]-->
-        {% block styles %}{% endblock %}
+        {% block styles %}{% endblock styles %}
         <link rel="stylesheet" href="{{ namespace }}/css/main.css">
 
         <script src="{{ namespace }}/js/bootstrap/modernizr-2.6.2-respond-1.1.0.min.js"></script>
@@ -35,33 +35,35 @@
 
         <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    {% block siteName %}{% endblock %}
+        {% block navbar %}
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" href="{{ namespace }}/">{% block siteName %}{% endblock siteName %}</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endblock navbar %}
 
         <div class="container">
-            {% block messages %}{% endblock %}
+            {% block messages %}{% endblock messages %}
             {% block content %}
                 <h1>Bootstrap starter template</h1>
                 <p>
                     Use this document as a way to quick start any new project.<br>
                     All you get is this message and a barebones HTML document.
                 </p>
-            {% endblock %}
+            {% endblock content %}
         </div> <!-- /container -->
-        {% block footer %}{% endblock %}
+        {% block footer %}{% endblock footer %}
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
         <script>window.jQuery || document.write('<script src="{{ namespace }}/js/bootstrap/jquery-1.9.1.js"><\/script>')</script>
 
         <script src="{{ namespace }}/js/bootstrap/bootstrap.min.js"></script>
 
-        {% block scriptVars %}{% endblock %}
-        {% block scripts %}{% endblock %}
+        {% block scriptVars %}{% endblock scriptVars %}
+        {% block scripts %}{% endblock scripts %}
         <script src="{{ namespace }}/js/main.js"></script>
     </body>
 </html>
