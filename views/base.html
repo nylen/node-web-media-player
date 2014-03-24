@@ -2,6 +2,16 @@
 
 {% block title %}Page title{% endblock title %}
 
+{% block navbar %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                {% block siteName %}{% endblock siteName %}
+            </div>
+        </div>
+    </div>
+{% endblock navbar %}
+
 {% block siteName %}<a class="brand" href="{{ namespace }}/">Media Player</a>{% endblock siteName %}
 
 {% block messages %}
