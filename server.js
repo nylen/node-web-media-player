@@ -155,6 +155,10 @@ function setupWithDb(db) {
 
     var msgTypes = ['error', 'warning', 'info', 'success'];
 
+    // Expose a way to define new middleware functions - this does not work
+    // after the app.use(app.router) statement.
+    app.middlewares = [];
+
     // Custom middleware to set template variables
     app.use(function(req, res, next) {
         res.locals.namespace = namespace;
@@ -173,7 +177,18 @@ function setupWithDb(db) {
                 });
             });
         });
-        next();
+
+        function callMiddleware(i) {
+            if (i < app.middlewares.length) {
+                app.middlewares[i](req, res, function() {
+                    callMiddleware(i + 1);
+                });
+            } else {
+                next();
+            }
+        }
+
+        callMiddleware(0);
     });
 
     app.use(app.router);
