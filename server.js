@@ -133,21 +133,11 @@ app.ensureAuthenticated = function(req, res, next) {
 
 app.use(express.cookieParser());
 
-function setupWithDb(db) {
-    if (db) {
-        log.info('Using MongoDB session store');
-        app.use(express.session({
-            secret : config.app.secret,
-            store  : new MongoStore({
-                db : db
-            })
-        }));
-    } else {
-        log.warn('Using in-memory session store');
-        app.use(express.session({
-            secret : config.app.secret
-        }));
-    }
+function listen(db, sessionStore) {
+    app.use(express.session({
+        secret : config.app.secret,
+        store  : sessionStore
+    }));
 
     app.use(flash());
     app.use(passport.initialize());
@@ -217,14 +207,20 @@ if (config.app.mongoUrl) {
     MongoClient.connect(config.app.mongoUrl, function(err, db) {
         if (err) {
             log.warn('Error connecting to MongoDB: ' + (err.message || require('util').inspect(err)));
-            setupWithDb(null);
+            log.warn('Using in-memory session store');
+            listen(null, null);
         } else {
-            setupWithDb(db);
+            log.info('Using MongoDB session store');
+            // Wait for store to initialize before allowing connections
+            // See https://github.com/kcbanner/connect-mongo/issues/80
+            var store = new MongoStore({ db : db }, function() {
+                listen(db, store);
+            });
         }
     });
 } else {
     log.warn('MongoDB connection string (config.app.mongoUrl) not given');
     process.nextTick(function() {
-        setupWithDb(null);
+        listen(null, null);
     });
 }
