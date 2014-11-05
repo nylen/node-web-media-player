@@ -1,45 +1,42 @@
 {
-    "name"        : "web-media-player",
-    "author"      : "James Nylen <jnylen@gmail.com",
-    "description" : "Simple media player controlled by a web interface.  Designed for Raspberry Pi.",
-    "version"     : "0.1.0",
+    "name"        : "PACKAGE-NAME",
+    "author"      : "James Nylen <jnylen@gmail.com>",
+    "description" : "'PACKAGE DESCRIPTION'",
+    "version"     : "0.0.1",
     "repository"  : {
         "type" : "git",
-        "url"  : "https://github.com/nylen/node-web-media-player"
+        "url"  : "https://github.com/nylen/'REPO NAME'"
     },
     "bugs" : {
-        "url" : "https://github.com/nylen/node-web-media-player/issues"
+        "url" : "https://github.com/nylen/'REPO NAME'/issues"
     },
     "license"  : "MIT",
     "keywords" : [
-        "media",
-        "video",
-        "mplayer",
-        "omxplayer",
-        "raspberry",
-        "pi"
+        "'INSERT KEYWORDS HERE'"
     ],
     "scripts" : {
         "start" : "node server.js",
         "test"  : "node node_modules/.bin/mocha"
     },
     "devDependencies" : {
-        "mocha"  : "~1.12.0",
-        "should" : "~1.2.2"
+        "mocha"       : "~2.0.1",
+        "must"        : "~0.12.0",
+        "portscanner" : "~1.0.0",
+        "zombie"      : "~2.1.1"
     },
     "dependencies" : {
-        "express"           : "~3.1.0",
-        "express-namespace" : "~0.1.1",
-        "swig"              : "~1.0.0",
-        "config"            : "~0.4.20",
-        "js-yaml"           : "~2.0.3",
-        "winston"           : "~0.7.1",
-        "passport"          : "~0.1.17",
-        "passport-local"    : "~0.1.6",
+        "config"            : "~1.7.0",
         "connect-flash"     : "~0.1.1",
         "connect-mongo"     : "~0.3.3",
+        "express"           : "~3.1.0",
+        "express-namespace" : "~0.1.1",
+        "js-yaml"           : "~2.0.3",
+        "lazy"              : "~1.0.11",
         "mongodb"           : "~1.2.14",
+        "passport"          : "~0.1.17",
+        "passport-local"    : "~0.1.6",
+        "swig"              : "~1.0.0",
         "watch"             : "~0.8.0",
-        "lazy"              : "~1.0.11"
+        "winston"           : "~0.7.1"
     }
 }

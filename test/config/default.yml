@@ -1,8 +1,8 @@
 app:
-    port: 3000
+    port: 6789
     # namespace:
     # The base path for this application.  Leave empty or omit for none.
-    namespace: /site
+    namespace: /test
     # trustProxy:
     # Whether to set the Express 'trust proxy' setting, which tells Express to
     # use the X-Forwarded-* headers to get client information like IP address and
@@ -13,7 +13,7 @@ app:
     secret: please use something better than this
     # mongoUrl:
     # The connection URL to use for MongoDB (to store sessions).
-    mongoUrl: mongodb://localhost/connect-sessions
+    mongoUrl: mongodb://localhost/test-connect-sessions
 logging:
     # level:
     # The minimum log level that will be shown in console output.  Levels are:
@@ -24,4 +24,4 @@ auth:
     # digestFile:
     # The file containing usernames and hashed passwords in htdigest format
     # (lines like 'user:realm:hash' where hash = md5(username:realm:password))
-    digestFile: /path/to/users.digest
+    digestFile: test/config/test-users.digest
