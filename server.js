@@ -214,14 +214,7 @@ function setupWithDb(db) {
 }
 
 if (config.app.mongoUrl) {
-    MongoClient.connect(config.app.mongoUrl, {
-        server: {
-            socketOptions: {
-                connectTimeoutMS : 250,
-                socketTimeoutMS  : 250
-            }
-        }
-    }, function(err, db) {
+    MongoClient.connect(config.app.mongoUrl, function(err, db) {
         if (err) {
             log.warn('Error connecting to MongoDB: ' + (err.message || require('util').inspect(err)));
             setupWithDb(null);
