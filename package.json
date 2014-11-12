@@ -1,18 +1,23 @@
 {
-    "name"        : "PACKAGE-NAME",
+    "name"        : "web-media-player",
     "author"      : "James Nylen <jnylen@gmail.com>",
-    "description" : "'PACKAGE DESCRIPTION'",
-    "version"     : "0.0.1",
+    "description" : "Simple media player controlled by a web interface.  Designed for Raspberry Pi.",
+    "version"     : "0.1.0",
     "repository"  : {
         "type" : "git",
-        "url"  : "https://github.com/nylen/'REPO NAME'"
+        "url"  : "https://github.com/nylen/node-web-media-player"
     },
     "bugs" : {
-        "url" : "https://github.com/nylen/'REPO NAME'/issues"
+        "url" : "https://github.com/nylen/node-web-media-player/issues"
     },
     "license"  : "MIT",
     "keywords" : [
-        "'INSERT KEYWORDS HERE'"
+        "media",
+        "video",
+        "mplayer",
+        "omxplayer",
+        "raspberry",
+        "pi"
     ],
     "scripts" : {
         "start" : "node server.js",
