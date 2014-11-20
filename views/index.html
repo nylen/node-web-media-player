@@ -6,7 +6,7 @@
     <div class="navbar-text">
         <span id="browse-path" class="pathname">{{ directory|default('(Root directory)') }}</span>
         {% if parent %}
-            <a href="{{ namespace }}/browse/{{ parent }}">(Go up)</a>
+            <a id="up" href="{{ namespace }}/browse/{{ parent }}">(Go up)</a>
         {% endif %}
     </div>
 {% endblock %}
