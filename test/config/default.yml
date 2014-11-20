@@ -1,5 +1,5 @@
 app:
-    port: 6789
+    port: 9099
     # namespace:
     # The base path for this application.  Leave empty or omit for none.
     namespace: /test
