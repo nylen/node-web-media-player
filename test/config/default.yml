@@ -19,9 +19,25 @@ logging:
     # The minimum log level that will be shown in console output.  Levels are:
     # silly:0, input:1, verbose:2, prompt:3, debug:4, http:4.5, info:5, data:6,
     # help:7, warn:8, error:9
-    level: http
+    level: info
 auth:
     # digestFile:
     # The file containing usernames and hashed passwords in htdigest format
     # (lines like 'user:realm:hash' where hash = md5(username:realm:password))
     digestFile: test/config/test-users.digest
+player:
+    mediaPath: test/media
+    commands:
+        start: 'test/bin/dummy-player.js "%f"'
+        kill: 'kill -INT `cat test/bin/dummy-player-pid.txt`'
+    controls:
+        play: 'y'
+        pause: 'n'
+        exit: 'q'
+        seek:
+            # Escape sequences obtained using xxd command
+            -10: "\x1b\x5b\x44" # left arrow
+            +10: "\x1b\x5b\x43" # right arrow
+            -60: "\x1b\x5b\x42" # down arrow
+            +60: "\x1b\x5b\x41" # up arrow
+    exitTimeout: 500
