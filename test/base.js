@@ -30,9 +30,9 @@ describe('Site template', function() {
     });
 
     it('shows the login page', function(done) {
-        this.timeout(5000);
+        this.timeout(10000);
 
-        browser.visit(lib.baseUrl + '/', function(err) {
+        browser.visit(lib.baseUrl + '/', { duration : 10000 }, function(err) {
             must(err).not.exist();
             browser.url.must.equal(lib.baseUrl + '/test/login');
             lib.redirects.must.eql([
