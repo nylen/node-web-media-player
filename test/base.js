@@ -41,7 +41,7 @@ describe('Site template', function() {
             ]);
 
             browser.text('title').must.equal('Log in');
-            browser.text('div.navbar div.container a.brand').must.equal('Site name');
+            browser.text('div.navbar div.container a.brand').must.equal('Media Player');
 
             lib.db.collectionNames(function(err, items) {
                 must(err).not.exist();
@@ -85,13 +85,13 @@ describe('Site template', function() {
         .fill('#username', lib.username)
         .fill('#password', lib.password)
         .pressButton('#login-button', function() {
-            browser.url.must.equal(lib.baseUrl + '/test');
+            browser.url.must.equal(lib.baseUrl + '/test/browse');
             lib.redirects.must.eql([
-                lib.baseUrl + '/test'
+                lib.baseUrl + '/test',
+                lib.baseUrl + '/test/browse'
             ]);
 
-            browser.text('title').must.equal('Page title');
-            browser.text('#content').must.equal('Index page content');
+            browser.text('title').must.equal('Media Player');
             browser.text('#current-username').must.equal('test');
 
             lib.db.collection('sessions').find().toArray(function(err, results) {
