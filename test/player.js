@@ -57,6 +57,8 @@ describe('web-media-player', function() {
         dirLinks .map(getText).must.eql(dirs);
         fileLinks.map(getText).must.eql(files);
 
+        console.log(dirLinks.map(getText), fileLinks.map(getText), browser.text('#browse-path'));
+
         browser.text('#browse-path').must.equal(
             opts.path == '/' ? '(Root directory)' : opts.path);
 
