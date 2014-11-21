@@ -1,4 +1,4 @@
-# Node.js web media player
+# Node.js web media player [![Build status](https://img.shields.io/travis/nylen/node-web-media-player.svg?style=flat)](https://travis-ci.org/nylen/node-web-media-player) [![npm package](http://img.shields.io/npm/v/web-media-player.svg?style=flat)](https://www.npmjs.org/package/web-media-player)
 
 This application allows you to control a simple media player via a web
 interface.  I wrote it so that I could play video files on my Raspberry Pi.
@@ -11,6 +11,7 @@ refreshed when a new page is requested.  I might work on this in the future.
 - [Install node.js](https://github.com/joyent/node/wiki/Installation).
 
 - `git clone https://github.com/nylen/node-web-media-player.git`
+  (or `npm install web-media-player`)
 
 - `cd node-web-media-player` and `npm install`
 
