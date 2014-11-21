@@ -16,7 +16,7 @@ describe('Site template', function() {
     });
 
     after(function(done) {
-        this.timeout(5000);
+        this.timeout(10000);
         lib.closeServer(done);
     });
 
