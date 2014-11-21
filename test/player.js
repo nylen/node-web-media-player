@@ -11,6 +11,11 @@ describe('web-media-player', function() {
         playerFile = 'test/bin/dummy-player-status.txt',
         quitFile   = 'test/bin/dummy-exit-on-quit.txt';
 
+    // empty directories are not stored in git repos
+    try {
+        fs.mkdirSync(path.join(mediaPath, 'folder1/folder1-1'));
+    } catch (err) { }
+
     fs.writeFileSync(quitFile, 'true');
 
     function assertControlLink(text, href) {
