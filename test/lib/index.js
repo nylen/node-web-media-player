@@ -118,11 +118,23 @@ exports.closeServer = function(done) {
 };
 
 exports.createBrowser = function() {
-    exports.browser = zombie.create();
-    exports.browser.on('redirect', function(req, res) {
+    var browser = exports.browser = zombie.create();
+
+    browser.on('redirect', function(req, res) {
         exports.redirects.push(res.url);
     });
-    return exports.browser;
+
+    // workaround for https://github.com/assaf/zombie/pull/454
+    // browser.on('loaded', function(document) {
+    //     // history.replaceEntry(document.window, document.window._response.url);
+    //     console.log({ loaded : {
+    //         response : document.window._response.url,
+    //         referrer : document.referrer,
+    //         URL      : document.window.URL
+    //     }});
+    // });
+
+    return browser;
 };
 
 exports.clearRedirects = function() {
