@@ -38,11 +38,15 @@ exports.ensureConnected = function(done) {
     }
 };
 
-function checkPort(port, cb, timeout) {
-    timeout = timeout || 5000;
-
-    var start    = +new Date,
+function checkPort(port, cb, timeout, interval) {
+    if (typeof timeout == 'undefined') {
+        timeout = Infinity;
+    }
+    if (typeof interval == 'undefined') {
         interval = 500;
+    }
+
+    var start = +new Date;
 
     portscanner.checkPortStatus(port, 'localhost', function(err, status) {
         if (err) {
