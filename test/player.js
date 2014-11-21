@@ -96,6 +96,7 @@ describe('web-media-player', function() {
     });
 
     after(function(done) {
+        this.timeout(5000);
         lib.closeServer(done);
     });
 
