@@ -12,11 +12,17 @@ exports.setRoutes = function(app, config, listen) {
 
     app.get('/browse', app.ensureAuthenticated, function(req, res) {
         // res.send(player.getBrowseData(''));
-        res.render('index.html', player.getBrowseData(''));
+        player.getBrowseData('', function(err, data) {
+            if (err) return res.end(err.message);
+            res.render('index.html', data);
+        });
     });
 
     app.get('/browse/*', app.ensureAuthenticated, function(req, res) {
-        res.render('index.html', player.getBrowseData(req.params[0]));
+        player.getBrowseData(req.params[0], function(err, data) {
+            if (err) return res.end(err.message);
+            res.render('index.html', data);
+        });
     });
 
     app.get('/play/*', app.ensureAuthenticated, function(req, res) {

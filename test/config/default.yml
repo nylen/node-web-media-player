@@ -27,6 +27,9 @@ auth:
     digestFile: test/config/test-users.digest
 player:
     mediaPath: test/media
+    mount:
+        ifNotExists: mounted.txt
+        command: 'test/bin/dummy-mount.js "%d"'
     commands:
         start: 'test/bin/dummy-player.js "%f"'
         kill: 'kill -INT `cat test/bin/dummy-player-pid.txt`'

@@ -24,6 +24,13 @@ refreshed when a new page is requested.  I might work on this in the future.
 
 - **player.mediaPath** - the root path for your media files.
 
+- **player.mount.ifNotExists** and **player.mount.command** - if these settings
+  are present, then check whether the file specified by **ifNotExists** exists
+  (relative to the **mediaPath**), and if it doesn't, then run the command
+  specified by **command**.  This feature can be used to automatically mount
+  the media storage directory.   Use `%d` for the path to the media storage
+  directory, if needed.
+
 - **player.commands.start** - the command that should be used to run the media
   player for a file.  This should be a command-line media player like `mplayer`
   or `omxplayer`.  Use `%f` for the filename.

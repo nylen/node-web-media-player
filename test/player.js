@@ -9,7 +9,10 @@ describe('web-media-player', function() {
     var browser    = lib.createBrowser(),
         mediaPath  = 'test/media',
         playerFile = 'test/bin/dummy-player-status.txt',
-        quitFile   = 'test/bin/dummy-exit-on-quit.txt';
+        quitFile   = 'test/bin/dummy-exit-on-quit.txt',
+        mountFile  = 'test/bin/dummy-mount.txt',
+        mediaPath  = path.resolve(lib.config.player.mediaPath).replace(/\/*$/, '/'),
+        mountIfNotExists = path.join(mediaPath, lib.config.player.mount.ifNotExists);
 
     // empty directories are not stored in git repos
     try {
@@ -95,13 +98,23 @@ describe('web-media-player', function() {
         }
     }
 
+    function deleteMountFiles() {
+        [mountFile, mountIfNotExists].forEach(function(f) {
+            if (fs.existsSync(f)) {
+                fs.unlinkSync(f);
+            }
+        });
+    }
+
     before(function(done) {
         this.timeout(10000);
+        deleteMountFiles();
         lib.startServer(done);
     });
 
     after(function(done) {
         this.timeout(5000);
+        deleteMountFiles();
         lib.closeServer(done);
     });
 
@@ -123,6 +136,13 @@ describe('web-media-player', function() {
                 done();
             });
         });
+    });
+
+    it('runs the mount command', function(done) {
+        var expected = 'mount:' + mediaPath;
+        fs.readFileSync(mountFile, 'utf8').must.equal(expected);
+        fs.readFileSync(mountIfNotExists, 'utf8').must.equal(expected);
+        done();
     });
 
     it('shows directories and files', function(done) {

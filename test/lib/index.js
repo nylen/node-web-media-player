@@ -8,6 +8,7 @@ var cp          = require('child_process'),
     portscanner = require('portscanner'),
     zombie      = require('zombie');
 
+exports.config    = config;
 exports.db        = null;
 exports.server    = null;
 exports.baseUrl   = 'http://localhost:' + config.app.port;

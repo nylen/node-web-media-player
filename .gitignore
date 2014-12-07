@@ -4,3 +4,4 @@ config/default.yml
 data
 !data/.gitkeep
 TODO
+test/media/mounted.txt
