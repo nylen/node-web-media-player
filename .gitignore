@@ -1,6 +1,7 @@
 node_modules
 config/runtime.json
 config/default.yml
-data
+data/*
 !data/.gitkeep
+!data/upload
 TODO
