@@ -87,7 +87,12 @@ if (config.app.trustProxy) {
 
 var namespace = config.app.namespace || '';
 
-app.use(express.bodyParser());
+
+app.use(express.json());
+app.use(express.urlencoded());
+
+app.uploadDir = config.app.uploadDir || path.join(__dirname, 'data', 'upload');
+app.use(express.multipart({ uploadDir : app.uploadDir }));
 
 app.use(expressWinston.logger({
     logger: log,
