@@ -138,94 +138,80 @@ app.ensureAuthenticated = function(req, res, next) {
 
 app.use(express.cookieParser());
 
-function listen(db, sessionStore) {
-    app.use(express.session({
-        secret : config.app.secret,
-        store  : sessionStore
-    }));
-
-    app.use(flash());
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-    var msgTypes = ['error', 'warning', 'info', 'success'];
-
-    // Expose a way to define new middleware functions - this does not work
-    // after the app.use(app.router) statement.
-    app.middlewares = [];
-
-    // Custom middleware to set template variables
-    app.use(function(req, res, next) {
-        res.locals.namespace = namespace;
-        res.locals.qs        = req.query;
-
-        if (req.isAuthenticated()) {
-            res.locals.user = req.user;
-        }
-
-        res.locals.messages = [];
-        msgTypes.forEach(function(type) {
-            req.flash(type).forEach(function(msg) {
-                res.locals.messages.push({
-                    type    : type,
-                    message : msg
-                });
-            });
-        });
-
-        function callMiddleware(i) {
-            if (i < app.middlewares.length) {
-                app.middlewares[i](req, res, function() {
-                    callMiddleware(i + 1);
-                });
-            } else {
-                next();
-            }
-        }
-
-        callMiddleware(0);
-    });
-
-    app.use(app.router);
-
-    app.use(namespace, express.static(path.join(__dirname, 'public')));
-
-    app.get('/', function(req, res) {
-        res.redirect(namespace);
-    });
-
-    app.vars = {
-        namespace : namespace
-    };
-
-    users.init(function() {
-        app.namespace(namespace, function() {
-            routes.setRoutes(app, config, function listen() {
-                app.listen(config.app.port);
-                log.info('Started server on port ' + config.app.port);
-            });
-        });
-    });
-}
-
+var sessionConfig = {
+    secret : config.app.secret
+};
 if (config.app.mongoUrl) {
-    MongoClient.connect(config.app.mongoUrl, function(err, db) {
-        if (err) {
-            log.warn('Error connecting to MongoDB: ' + (err.message || require('util').inspect(err)));
-            log.warn('Using in-memory session store');
-            listen(null, null);
-        } else {
-            log.info('Using MongoDB session store');
-            // Wait for store to initialize before allowing connections
-            // See https://github.com/kcbanner/connect-mongo/issues/80
-            var store = new MongoStore({ db : db }, function() {
-                listen(db, store);
-            });
-        }
+    log.info('Using MongoDB session store');
+    sessionConfig.store = new MongoStore({
+        url : config.app.mongoUrl
     });
 } else {
     log.warn('MongoDB connection string (config.app.mongoUrl) not given');
-    process.nextTick(function() {
-        listen(null, null);
-    });
+    log.info('Using in-memory session store');
 }
+
+app.use(express.session(sessionConfig));
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+var msgTypes = ['error', 'warning', 'info', 'success'];
+
+// Expose a way to define new middleware functions - this does not work
+// after the app.use(app.router) statement.
+app.middlewares = [];
+
+// Custom middleware to set template variables
+app.use(function(req, res, next) {
+    res.locals.namespace = namespace;
+    res.locals.qs        = req.query;
+
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+    }
+
+    res.locals.messages = [];
+    msgTypes.forEach(function(type) {
+        req.flash(type).forEach(function(msg) {
+            res.locals.messages.push({
+                type    : type,
+                message : msg
+            });
+        });
+    });
+
+    function callMiddleware(i) {
+        if (i < app.middlewares.length) {
+            app.middlewares[i](req, res, function() {
+                callMiddleware(i + 1);
+            });
+        } else {
+            next();
+        }
+    }
+
+    callMiddleware(0);
+});
+
+app.use(app.router);
+
+app.use(namespace, express.static(path.join(__dirname, 'public')));
+
+app.get('/', function(req, res) {
+    res.redirect(namespace);
+});
+
+app.vars = {
+    namespace : namespace
+};
+
+users.init(function() {
+    app.namespace(namespace, function() {
+        routes.setRoutes(app, config, function listen() {
+            app.listen(config.app.port);
+            log.info('Started server on port ' + config.app.port);
+        });
+    });
+});

@@ -27,7 +27,7 @@
     "dependencies" : {
         "config"            : "~1.7.0",
         "connect-flash"     : "~0.1.1",
-        "connect-mongo"     : "~0.3.3",
+        "connect-mongo"     : "~0.5.3",
         "express"           : "~3.1.0",
         "express-namespace" : "~0.1.1",
         "js-yaml"           : "~2.0.3",
